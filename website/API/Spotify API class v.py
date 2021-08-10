@@ -1,4 +1,8 @@
 # Spotify API
+import os
+my_secret = os.environ['client_id']
+my_secret = os.environ['client_secret']
+
 import spotipy
 import sys
 from spotipy.oauth2 import SpotifyClientCredentials
