@@ -1,10 +1,12 @@
 # Spotify API
 import os
 from dotenv import load_dotenv
+
 # Credentials
 load_dotenv('.env')
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
+
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -47,14 +49,14 @@ class SpotifyPlaylist():
     def combining_all(self):
         combination = zip(self.playlist_name, self.playlist_url, self.playlist_img)
         playlist_name_url = list(combination)
-        print(playlist_name_url[1])
+        return playlist_name_url[1]
 
     def clear_search_query(self):
         pass
 
 
-finding_spotify_playlist1 = SpotifyPlaylist()
-finding_spotify_playlist1.find_playlist('happy')
-finding_spotify_playlist1.get_playlist_url()
-finding_spotify_playlist1.get_playlist_image()
-finding_spotify_playlist1.combining_all()
+# finding_spotify_playlist1 = SpotifyPlaylist()
+# finding_spotify_playlist1.find_playlist('happy')
+# finding_spotify_playlist1.get_playlist_url()
+# finding_spotify_playlist1.get_playlist_image()
+# finding_spotify_playlist1.combining_all()

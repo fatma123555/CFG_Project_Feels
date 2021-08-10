@@ -1,36 +1,85 @@
+/* TEXT COLOUR */
 * {
     color: white;
+    font-family: 'Montserrat', sans-serif;
 }
+
 :is(h1, h2, h3, h4, h5, h6) {
   color: white;
+  font-weight: 600px;
 }
+
+/* MAIN PAGE PICTURE */
+#img-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+img {
+    height: 350px;
+    margin-bottom: 100px;
+}
+.home-img {
+     width: 50%;
+}
+
+#rain-img {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+
+/* CENTER ALL ITEMS IN CONTENT BLOCK */
+#content {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    justify-content: center;
+    width: 70%;
+}
+
+/* BACKGROUND COLOUR */
 
 body {
     background-color: #212629;
+    /* background-color: #212629; */
     /* background-image: url("../img/album_covers.png"); */
     z-index: 1
 }
 
+
+/* SPLIT ITEMS BETWEEN LEFT AND RIGHT */
+#split-block {
+    display:flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+#left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly
+}
+
+/* DECORATE THE SPOTIFY EMBED */
+iframe {
+    border: 10px solid white;
+    background-color: white
+}
+
+
 /*
 nav {
     background: linear-gradient(180deg, rgba(33,38,32,1) 30%, rgba(0,212,255,0) 100%);
-} */
-
-p {
-    color: white;
-}
-
 
 #overlay {
-  position: fixed; /* Sit on top of the page content */
-  /* display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  /* background-color: rgba(33,38,41, 0.8); /* Black background with opacity */
+  width: 100%;
+  height: 100%;
   background-color: rgba(25,20,20, 0.9);
-  z-index: -1; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 3;  Specify a stack order in case you're using a different order for other elements
 }
-/*
 
 #fade {
     background: linear-gradient(180deg, rgba(0,0,0,0.7) 70%, rgba(0,212,255,0) 100%);

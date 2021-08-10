@@ -1,10 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block content %}
-<h1>So you're feeling {{ final_mood }}</h1>
-<br />
-<br />
-<h2>Here's a playlist just for you!</h2>
-<iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<div id="split-block" class="container">
+    <div id="left">
+        {% if rating %}
+
+        <h3>You've rated it {{ rating }} ⭐ </h3>
+
+{% else %}
+<h3>Rate the playlist:</h3>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.radio.label(class="form-label") }}
+            <br />
+            <table>
+            {% for subfield in form.radio %}
+                <tr>
+                    <td>{{ subfield }}      </td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+            <br />
+            <br />
+            <p>Happy with your rating?</p>
+            {{ form.submit(class="btn btn-danger") }}
+        </form>
+
+ {% endif %}
+
+
+
+    </div>
+    <div id="right">
+                <iframe src="https://open.spotify.com/embed/playlist/{{ playlist_data['CODE'] }}" width="500" height="580" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
+</div>
+<br/>
+<h3>Stay and enjoy the playlist or....</h3>
 <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('home') }}">Go Home</a>
+
+
 {% endblock %}

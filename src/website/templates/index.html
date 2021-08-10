@@ -7,8 +7,12 @@
     <br />
     <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('quiz') }}">Take the Quiz!</a>
 {% else  %}
-    <h1>Hello! Welcome to Spotify Mood Playlist Generator!</h1>
+    <h1>Hello and Welcome to Feels! </h1>
     <br />
+<div id="img-box" class="container">
+    <img id="main-img" class="home-img" src="../static/img/album_covers.png"/>
+    <img id="rain-img" class="home-img" src="../static/img/rainbow_albums.jpeg"/>
+</div>
     <form method="post">
         {{ form.hidden_tag() }}
         {{ form.name.label(class="form-label") }}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, RadioField
 from wtforms.validators import DataRequired
 
 
@@ -9,8 +9,8 @@ class AppForm(FlaskForm):
 
 
 class QuizForm(FlaskForm):
-    mood_1 = SelectField('First Mood', choices=[("Happy", "Happy"), ("Sad", "Sad"), ("Irritable", "Irritable"), ("Loving", "Loving")], validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    mood_1 = SelectField('How are you feeling?', choices=[("Happy", "Happy"), ("Sad", "Sad"), ("Irritable", "Irritable"), ("Loving", "Loving")], validators=[DataRequired()])
+    submit = SubmitField("Next")
 
 
 class SecondChoice(FlaskForm):
@@ -20,21 +20,10 @@ class SecondChoice(FlaskForm):
         "Irritable": ["Frustrated", "Anxious", "Jealous", "Livid"],
         "Loving": ["Unrequited Love", "Playful", "Adoration", "Passionate"]
     }
-    mood_2 = SelectField('First Mood', choices=[], validators=[DataRequired()])
-    submit = SubmitField("Submit final mood")
+    mood_2 = SelectField('Tell us how you really feel?', choices=[], validators=[DataRequired()])
+    submit = SubmitField("Get my playlist!")
 
 
-
-    # mood_2 = SelectField('Second Mood', choices=[])
-    # moods = {
-    #     "H": ["Confident", "Inspired", "Joyful", "Pumped"],
-    #     "S": ["Depressed", "Lonely", "Grief", "Heartbroken"],
-    #     "I": ["Frustrated", "Anxious", "Jealous", "Livid"],
-    #     "L": ["Unrequited Love", "Playful", "Adoration", "Passionate"]
-    # }
-    # all_moods = {
-    #     "Happy": ["Confident", "Inspired", "Joyful", "Pumped"],
-    #     "Sad": ["Depressed", "Lonely", "Grief", "Heartbroken"],
-    #     "Irritable": ["Frustrated", "Anxious", "Jealous", "Livid"],
-    #     "Loving": ["Unrequited Love", "Playful", "Adoration", "Passionate"]
-    # }
+class RatingForm(FlaskForm):
+    radio = RadioField(u'How many stars? ', choices=[('1', '⭐'), ('2', '⭐⭐'), ('3', '⭐⭐⭐'), ('4', '⭐⭐⭐⭐'), ('5', '⭐⭐⭐⭐⭐')], validators=[DataRequired()])
+    submit = SubmitField("Submit")
