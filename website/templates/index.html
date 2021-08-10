@@ -2,11 +2,11 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 {% if name %}
-    <br />
     <h1>Hello {{ name }}!</h1>
+    <br />
+    <br />
     <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('quiz') }}">Take the Quiz!</a>
 {% else  %}
-    <br />
     <h1>Hello! Welcome to Spotify Mood Playlist Generator!</h1>
     <br />
     <form method="post">

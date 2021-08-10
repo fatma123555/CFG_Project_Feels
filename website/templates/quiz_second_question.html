@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block content %}
-<h1>Here to take the quiz?</h1>
+<h1>Feeling {{ mood }}? So Let's dive deeper!</h1>
 <br />
     <form method="post">
         {{ form.hidden_tag() }}
-        {{ form.mood_1.label(class="form-label") }}
-        {{ form.mood_1(class="form-control") }}
+        {{ form.mood_2.label(class="form-label") }}
+        {{ form.mood_2(class="form-control") }}
         <br />
         {{ form.submit(class="btn btn-success") }}
     </form>
 <br />
-
 {% endblock %}
