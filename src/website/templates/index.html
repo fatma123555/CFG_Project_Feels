@@ -1,25 +1,24 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-{% if name %}
-    <h1>Hello {{ name }}!</h1>
-    <br />
-    <br />
-    <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('quiz') }}">Take the Quiz!</a>
-{% else  %}
-    <h1>Hello and Welcome to Feels! </h1>
+    <h1>Feels</h1>
+    <h5>get in your feels</h5>
     <br />
 <div id="img-box" class="container">
     <img id="main-img" class="home-img" src="../static/img/album_covers.png"/>
     <img id="rain-img" class="home-img" src="../static/img/rainbow_albums.jpeg"/>
 </div>
-    <form method="post">
-        {{ form.hidden_tag() }}
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-        <br />
-        {{ form.submit(class="btn btn-success") }}
-    </form>
-{% endif %}
+<div id="split-block">
+    <div id=left"">
+            <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('quiz') }}">Random Recommendation?</a>
+
+    </div>
+    <div id=right"">
+            <a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('quiz') }}">Popular Playlists!</a>
+
+    </div>
+</div>
+
+
 <br />
 {% endblock %}

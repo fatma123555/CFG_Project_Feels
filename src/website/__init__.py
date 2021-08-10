@@ -19,16 +19,7 @@ def create_app():
 
     @app.route("/", methods=['GET', 'POST'])
     def home():
-        name = None
-        form = AppForm()
-        # Validate the form submission
-        if form.validate_on_submit():
-            name = form.name.data
-            form.name.data = ''
-            flash("Form Submitted Successfully!")
-        return render_template("index.html",
-                               name=name,
-                               form=form)
+        return render_template("index.html")
 
     @app.route("/quiz", methods=['GET', 'POST'])
     def quiz():
@@ -71,6 +62,14 @@ def create_app():
             # # the data that holds the URL for playlist, the IMG-URL and the playlist CODE
             # print(session['data'])
         return render_template("result.html", form=form, rating=rating, playlist_data=session['data'])
+
+    @app.route("/popular_playlists", methods=["GET", "POST"])
+    def popular_playlists():
+        """
+        this function will be used to call and calculate the popular playlists from the database.
+        and output the result to the screen on the highly rated page
+        """
+        pass
 
     @app.errorhandler(404)
     def page_not_found(e):
