@@ -6,6 +6,9 @@
         {% if rating %}
 
         <h3>You've rated it {{ rating }} ⭐ </h3>
+        <h5>Stay and enjoy the playlist or....</h5>
+<a class="btn btn-success text-light" style="text-decoration:none; margin:20px;" href="{{ url_for('home') }}">Go Home</a>
+
 
 {% else %}
 <h3>Rate the playlist:</h3>
@@ -24,7 +27,7 @@
             <br />
             <br />
             <p>Happy with your rating?</p>
-            {{ form.submit(class="btn btn-danger") }}
+            {{ form.submit(class="btn btn-success") }}
         </form>
 
  {% endif %}
@@ -37,8 +40,5 @@
     </div>
 </div>
 <br/>
-<h3>Stay and enjoy the playlist or....</h3>
-<a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('home') }}">Go Home</a>
-
 
 {% endblock %}

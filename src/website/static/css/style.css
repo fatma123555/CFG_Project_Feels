@@ -1,12 +1,23 @@
 /* TEXT COLOUR */
 * {
     color: white;
-    font-family: 'Montserrat', sans-serif;
+    font-family: Helvetica, 'Montserrat', sans-serif;
+    font-size: 18px;
+}
+
+:is(h1, h2) {
+    font-weight: bold;
+    font-size: 3rem;
+    font-style: italic;
+    text-align: center;
 }
 
 :is(h1, h2, h3, h4, h5, h6) {
   color: white;
-  font-weight: 600px;
+  font-weight:normal;
+  font-style: italic;
+  font-weight: bold;
+   text-align: center;
 }
 
 /* MAIN PAGE PICTURE */
