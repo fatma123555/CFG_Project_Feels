@@ -1,6 +1,7 @@
-from flask import Flask, render_template, flash
-from website.CustomForm import AppForm
+from flask import Flask, render_template, flash, request, session, url_for
+from werkzeug.utils import redirect
 
+from website.CustomForm import AppForm, QuizForm, SecondChoice
 
 def create_app():
     app = Flask(__name__)
@@ -10,7 +11,7 @@ def create_app():
     def home():
         name = None
         form = AppForm()
-        # Validate the form submision
+        # Validate the form submission
         if form.validate_on_submit():
             name = form.name.data
             form.name.data = ''
@@ -21,7 +22,21 @@ def create_app():
 
     @app.route("/quiz", methods=['GET', 'POST'])
     def quiz():
-        return render_template("quiz.html")
+        form = QuizForm()
+        answer = None
+        if request.method == 'POST':
+            answer = form.mood_1.data
+            return redirect(url_for('quiz_second_question', mood=answer))
+        return render_template("quiz.html", form=form, answer=answer)
+
+    @app.route("/quiz/<mood>", methods=['GET', 'POST'])
+    def quiz_second_question(mood):
+        form = SecondChoice()
+        form.mood_2.choices = form.all_moods[mood]
+        if form.validate_on_submit():
+            final_mood = form.mood_2.data
+            return render_template("result.html", final_mood=final_mood)
+        return render_template("quiz_second_question.html", form=form, mood=mood)
 
     @app.errorhandler(404)
     def page_not_found(e):

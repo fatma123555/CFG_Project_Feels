@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+{% block content %}
+<h1>So you're feeling {{ final_mood }}</h1>
+<br />
+<br />
+<h2>Here's a playlist just for you!</h2>
+<a class="btn btn-success text-light" style="text-decoration:none;" href="{{ url_for('home') }}">Go Home</a>
+{% endblock %}
