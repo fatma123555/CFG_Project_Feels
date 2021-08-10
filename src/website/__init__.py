@@ -2,6 +2,7 @@ from flask import Flask, render_template, flash, request, url_for
 from werkzeug.utils import redirect
 
 from src.website.CustomForm import AppForm, QuizForm, SecondChoice
+from src.website.API.Spotify_API import SpotifyPlaylist
 
 def create_app():
     app = Flask(__name__)
@@ -35,8 +36,13 @@ def create_app():
         form.mood_2.choices = form.all_moods[mood]
         if form.validate_on_submit():
             final_mood = form.mood_2.data
-            return render_template("result.html", final_mood=final_mood)
+            return redirect(url_for('results_page', final_mood=final_mood))
         return render_template("quiz_second_question.html", form=form, mood=mood)
+
+    @app.route("/result/<final_mood>", methods=["GET", "POST"])
+    def results_page(final_mood):
+        return render_template("result.html", final_mood=final_mood)
+
 
     @app.errorhandler(404)
     def page_not_found(e):

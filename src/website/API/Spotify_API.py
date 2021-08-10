@@ -1,10 +1,12 @@
 # Spotify API
 import os
-my_secret = os.environ['client_id']
-my_secret = os.environ['client_secret']
+from dotenv import load_dotenv
+# Credentials
+load_dotenv('.env')
+client_id = os.getenv('CLIENT_ID')
+client_secret = os.getenv('CLIENT_SECRET')
 
 import spotipy
-import sys
 from spotipy.oauth2 import SpotifyClientCredentials
 import random
 
