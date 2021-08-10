@@ -1,7 +1,7 @@
-from flask import Flask, render_template, flash, request, session, url_for
+from flask import Flask, render_template, flash, request, url_for
 from werkzeug.utils import redirect
 
-from website.CustomForm import AppForm, QuizForm, SecondChoice
+from src.website.CustomForm import AppForm, QuizForm, SecondChoice
 
 def create_app():
     app = Flask(__name__)
