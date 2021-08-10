@@ -6,7 +6,6 @@ my_secret = os.environ['client_secret']
 import spotipy
 import sys
 from spotipy.oauth2 import SpotifyClientCredentials
-from spotifysecret import *
 import random
 
 
