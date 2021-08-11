@@ -23,6 +23,7 @@ def get_playlist_response(final_mood):
 
 
 def get_playlist_data(response):
+    print("response:", response)
     playlist_data = {'URL': response[1]['spotify'],
                      'IMG-URL': response[2][0]['url'],
                      'CODE': response[1]['spotify'].split('/')[-1]
@@ -35,6 +36,12 @@ def create_app():
 
     @app.route("/", methods=['GET', 'POST'])
     def home():
+        # remove the data from the session if it is there
+        try:
+            session.pop('data', None)
+            session.pop('final_mood', None)
+        except Exception as e:
+            print("Something is wrong with the session", e)
         return render_template("index.html")
 
     @app.route("/quiz", methods=['GET', 'POST'])
@@ -43,8 +50,11 @@ def create_app():
         answer = None
         if request.method == 'POST':
             answer = form.mood_1.data
-            return redirect(url_for('quiz_second_question', mood=answer))
-        return render_template("quiz.html", form=form, answer=answer)
+            return redirect(url_for('quiz_second_question',
+                                    mood=answer))
+        return render_template("quiz.html",
+                               form=form,
+                               answer=answer)
 
     @app.route("/quiz/<mood>", methods=['GET', 'POST'])
     def quiz_second_question(mood):
@@ -52,24 +62,34 @@ def create_app():
         form.mood_2.choices = form.all_moods[mood]
         if form.validate_on_submit():
             final_mood = form.mood_2.data
-            response = get_playlist_data(final_mood)
+            response = get_playlist_response(final_mood)
             playlist_data = get_playlist_data(response)
             session['data'] = playlist_data
-            return redirect(url_for('save_rating', final_mood=final_mood))
-        return render_template("quiz_second_question.html", form=form, mood=mood)
+            session['final_mood'] = final_mood
+            return redirect(url_for('save_rating',
+                                    final_mood=final_mood))
+        return render_template("quiz_second_question.html",
+                               form=form,
+                               mood=mood)
 
     @app.route("/result/", methods=["GET", "POST"])
     def save_rating():
         # create rating form
         form = RatingForm()
         rating = None
+        playlist_data = session['data']
+        final_mood = session['final_mood']
         if form.validate_on_submit():
             rating = form.radio.data
             # # the user rating score
             # print(rating)
             # # the data that holds the URL for playlist, the IMG-URL and the playlist CODE
             # print(session['data'])
-        return render_template("result.html", form=form, rating=rating, playlist_data=session['data'])
+        return render_template("result.html",
+                               form=form,
+                               rating=rating,
+                               playlist_data=playlist_data,
+                               final_mood=final_mood)
 
     @app.route("/popular_playlists", methods=["GET", "POST"])
     def popular_playlists():
