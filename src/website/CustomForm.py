@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, RadioField
 from wtforms.validators import DataRequired
 
+from src.website.database.data_manager import main_moods_tuples, all_moods
 
 class AppForm(FlaskForm):
     name = StringField("What's Your Name?", validators=[DataRequired()])
@@ -9,17 +10,14 @@ class AppForm(FlaskForm):
 
 
 class QuizForm(FlaskForm):
-    mood_1 = SelectField('How are you feeling?', choices=[("Happy", "Happy"), ("Sad", "Sad"), ("Irritable", "Irritable"), ("Loving", "Loving")], validators=[DataRequired()])
+    print(main_moods_tuples)
+    mood_1 = SelectField('How are you feeling?', choices=main_moods_tuples, validators=[DataRequired()])
     submit = SubmitField("Next")
 
 
 class SecondChoice(FlaskForm):
-    all_moods = {
-        "Happy": ["Confident", "Inspired", "Joyful", "Pumped"],
-        "Sad": ["Depressed", "Lonely", "Grief", "Heartbroken"],
-        "Irritable": ["Frustrated", "Anxious", "Jealous", "Livid"],
-        "Loving": ["Unrequited Love", "Playful", "Adoration", "Passionate"]
-    }
+    all_moods = all_moods
+    print(all_moods)
     mood_2 = SelectField('Tell us how you really feel?', choices=[], validators=[DataRequired()])
     submit = SubmitField("Get my playlist!")
 

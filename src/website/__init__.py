@@ -1,8 +1,9 @@
-from flask import Flask, render_template, flash, request, url_for, session
+from flask import Flask, render_template, request, url_for, session
 from werkzeug.utils import redirect
 
 from src.website.CustomForm import AppForm, QuizForm, SecondChoice, RatingForm
 from src.website.API.Spotify_API import SpotifyPlaylist
+from src.website import database
 
 # Spotify API
 import os
@@ -11,6 +12,24 @@ from dotenv import load_dotenv
 # Credentials
 load_dotenv('.env')
 SECRET_KEY = os.getenv('SECRET_KEY')
+
+from src.website.database.data_manager import get_main_moods
+
+
+# def get_all_moods():
+#     return get_main_moods()
+#
+# def build_moods_dict():
+#     main_moods = get_main_moods()
+#     all_moods = dict()
+#     for main_mood in main_moods:
+#         all_moods[main_mood] = get_sub_moods(main_mood)
+#     return all_moods
+#
+# all_moods = build_moods_dict()
+# main_moods_tuples = get_main_moods()
+
+
 
 
 def get_playlist_response(final_mood):
@@ -30,6 +49,7 @@ def get_playlist_data(response):
                      }
     return playlist_data
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = SECRET_KEY
@@ -47,6 +67,8 @@ def create_app():
     @app.route("/quiz", methods=['GET', 'POST'])
     def quiz():
         form = QuizForm()
+        form.mood_1.choices = get_main_moods()
+        # PostForm(obj=post)
         answer = None
         if request.method == 'POST':
             answer = form.mood_1.data
