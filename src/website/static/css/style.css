@@ -18,9 +18,15 @@ h1 {
     font-style: italic;
     text-align: center;
 }
-
-:is(h3, h4, h5, h6) {
- text-align: center;
+:is(h3) {
+  text-align: left;
+  color: white;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.6rem
+}
+:is(h4, h5, h6) {
+  text-align: center;
   color: white;
   font-style: italic;
   font-weight: 700;
@@ -39,15 +45,19 @@ h1 {
 img {
     height: 350px;
     margin-bottom: 100px;
+
 }
 .home-img {
-     width: 50%;
+     max-width: auto;
+
+
 }
 
 #rain-img {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
+
 }
 
 /* CENTER ALL ITEMS IN CONTENT BLOCK */
@@ -79,6 +89,13 @@ body {
 #left {
     display: flex;
     flex-direction: column;
+    width: 200px;
+    justify-content: space-evenly
+}
+#right{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
     justify-content: space-evenly
 }
 
