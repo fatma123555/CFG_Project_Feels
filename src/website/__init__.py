@@ -14,6 +14,7 @@ load_dotenv('.env')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 from src.website.database.data_manager import get_main_moods
+from src.website.database.feels_database import update_score, add_playlist
 
 
 # def get_all_moods():
@@ -30,8 +31,6 @@ from src.website.database.data_manager import get_main_moods
 # main_moods_tuples = get_main_moods()
 
 
-
-
 def get_playlist_response(final_mood):
     playlist_finder = SpotifyPlaylist()
     playlist_finder.find_playlist(final_mood)
@@ -45,7 +44,8 @@ def get_playlist_data(response):
     print("response:", response)
     playlist_data = {'URL': response[1]['spotify'],
                      'IMG-URL': response[2][0]['url'],
-                     'CODE': response[1]['spotify'].split('/')[-1]
+                     'CODE': response[1]['spotify'].split('/')[-1],
+                     'NAME': response[0]
                      }
     return playlist_data
 
@@ -72,6 +72,7 @@ def create_app():
         answer = None
         if request.method == 'POST':
             answer = form.mood_1.data
+            session['MAIN_MOOD'] = answer
             return redirect(url_for('quiz_second_question',
                                     mood=answer))
         return render_template("quiz.html",
@@ -87,7 +88,8 @@ def create_app():
             response = get_playlist_response(final_mood)
             playlist_data = get_playlist_data(response)
             session['data'] = playlist_data
-            session['final_mood'] = final_mood
+            session['SUB_MOOD'] = final_mood
+            add_playlist(playlist_data['NAME'], playlist_data['URL'], session['MAIN_MOOD'], session['SUB_MOOD'])
             return redirect(url_for('save_rating',
                                     final_mood=final_mood))
         return render_template("quiz_second_question.html",
@@ -100,13 +102,15 @@ def create_app():
         form = RatingForm()
         rating = None
         playlist_data = session['data']
-        final_mood = session['final_mood']
+        print("this is the data:", playlist_data)
+        final_mood = session['SUB_MOOD']
         if form.validate_on_submit():
             rating = form.radio.data
             # # the user rating score
             # print(rating)
             # # the data that holds the URL for playlist, the IMG-URL and the playlist CODE
             # print(session['data'])
+            update_score(playlist_data['NAME'], playlist_data['URL'], rating)
         return render_template("result.html",
                                form=form,
                                rating=rating,

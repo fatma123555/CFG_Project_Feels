@@ -26,13 +26,11 @@ class SpotifyPlaylist():
         for i, item in enumerate(self.playlists['items']):
             playlist_name = list((self.playlists['offset'] + i, item['name']))  # this returns the playlist names
         self.playlist_name = playlist_name
-        # print(self.playlist_name)
 
     def get_playlist_url(self):
         for i, item in enumerate(self.playlists['items']):
             playlist_url = list((self.playlists['offset'] + i, item['external_urls']))  # this returns the playlist url
             self.playlist_url = playlist_url
-            # print(self.playlist_url)
 
     def get_playlist_id(self):
         for i, item in enumerate(self.playlists['items']):
@@ -44,7 +42,6 @@ class SpotifyPlaylist():
         for i, item in enumerate(self.playlists['items']):
             playlist_img = list((self.playlists['offset'] + i, item['images']))
             self.playlist_img = playlist_img
-            # print(self.playlist_img)
 
     def combining_all(self):
         combination = zip(self.playlist_name, self.playlist_url, self.playlist_img)
@@ -54,9 +51,3 @@ class SpotifyPlaylist():
     def clear_search_query(self):
         pass
 
-
-# finding_spotify_playlist1 = SpotifyPlaylist()
-# finding_spotify_playlist1.find_playlist('happy')
-# finding_spotify_playlist1.get_playlist_url()
-# finding_spotify_playlist1.get_playlist_image()
-# finding_spotify_playlist1.combining_all()

@@ -1,17 +1,11 @@
 # Read entire moods file
 import pandas as pd
-from pathlib import Path, PurePath
-import os
 from pathlib import Path
-# Import DictWriter class from CSV module
-from csv import DictWriter
-# mood = os.getcwd()
-# print(mood)
+
 data_folder = Path("./website/database/")
 moods_path = data_folder / "moods.csv"
 print(moods_path)
-file = pd.read_csv(moods_path)
-# print(file)
+# file = pd.read_csv(moods_path)
 
 # # Read only playlist name and score
 # # import pandas as pd
@@ -81,31 +75,43 @@ def get_sub_moods(main_mood):
 
 # add_mood('ecstatic', 'miserable', 'terrible', 'sweet')
 
+data_folder = Path("./website/database/")
+playlist_score_path = data_folder / "playlist_score.csv"
+data_folder = Path("./website/database/")
+playlist_mood_path = data_folder / "playlist_mood.csv"
+print(playlist_mood_path)
 
-# # function to add new playlist not already in the CSV file
-# def add_playlist(name, URL, main_mood, sub_mood):
-#     from csv import writer
-#     List=[name,URL,main_mood,sub_mood]
-#     with open('playlist_mood.csv', 'a') as f_object:
-#         writer_object = writer(f_object)
-#         writer_object.writerow(List)
-#         f_object.close()
+# function to add new playlist not already in the CSV file to save the playlist and its moods
+def add_playlist(name, URL, main_mood, sub_mood):
+    df = pd.read_csv(playlist_mood_path)
+    if URL not in [str(URL) for URL in df.URL]:
+        new_row = {"playlist_name": name,
+                   "URL": URL,
+                   "main_mood": main_mood,
+                   "sub_mood": sub_mood}
+        print("NEW_ROW:", new_row)
+        df = df.append(new_row, ignore_index=True)
+    df.to_csv(playlist_mood_path, index=False)
 
-# add_playlist('nameA', 'URLA', 'loving', 'heartbroken')
 
+#add_playlist('nameA', 'URLA', 'loving', 'heartbroken')
 
-# # function to update the score - adds new score to existing score
-# def update_score(URL, new_score):
-#     import pandas as pd
-#     df = pd.read_csv("playlist_score.csv")
-#     #df.set_value(1, "Score", 30)
-#     df.loc[df["URL"]==URL, "score"] += new_score
-#     df.to_csv("playlist_score.csv", index=False)
-#
-# update_score('URLA', 4)
-# import pandas as pd
-# file = pd.read_csv('playlist_score.csv')
-# print(file)
+print(playlist_score_path)
+
+# function to update the score - adds new score to existing score
+def update_score(name, URL, new_score):
+    import pandas as pd
+    df = pd.read_csv(playlist_score_path)
+    if URL in [str(URL) for URL in df.URL]:
+        # df.set_value(1, "Score", 30)
+        df.loc[df["URL"] == URL, "score"] += new_score
+    else:
+        new_row = {"playlist_name": name,
+                   "URL": URL,
+                   "score": new_score}
+        df = df.append(new_row, ignore_index=True)
+    df.to_csv(playlist_score_path, index=False)
+
 
 # # Return all playlists based on a specific sub-mood
 # def all_by_mood(mood):
@@ -116,22 +122,22 @@ def get_sub_moods(main_mood):
 
 # all_by_mood('depressed')
 
-
-# #Return top 3 highest scoring playlist (any mood)
-# def top_scores():
-#     import pandas as pd
-#     pmood = pd.read_csv('playlist_mood.csv')
-#     pscore = pd.read_csv('playlist_score.csv')
-#     output1 = pd.merge(pmood, pscore,
-#                     on=['playlist_name','URL'],
-#                     how='inner')
-#     output1.sort_values(["score"],
-#                         axis=0,
-#                         ascending=[False],
-#                         inplace=True)
-#     print(output1[:3])
-# top_scores()
-
+#Return top 3 highest scoring playlist (any mood)
+def top_scores():
+    import pandas as pd
+    pmood = pd.read_csv(playlist_mood_path)
+    pscore = pd.read_csv(playlist_score_path)
+    output1 = pd.merge(pmood, pscore,
+                       on=['playlist_name','URL'],
+                       how='inner')
+    output1.sort_values(["score"],
+                        axis=0,
+                        ascending=[False],
+                        inplace=True)
+    # print(output1[:3])
+    return output1[:3]
+#update_score('na', 'URLA', 4)
+print("TOP THREE:", top_scores())
 
 
 # # Return top 3 playlists by score based on mood
