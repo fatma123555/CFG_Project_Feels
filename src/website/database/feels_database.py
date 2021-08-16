@@ -4,7 +4,7 @@ from pathlib import Path
 
 data_folder = Path("./website/database/")
 moods_path = data_folder / "moods.csv"
-print(moods_path)
+# print(moods_path)
 # file = pd.read_csv(moods_path)
 
 # # Read only playlist name and score
@@ -79,7 +79,7 @@ data_folder = Path("./website/database/")
 playlist_score_path = data_folder / "playlist_score.csv"
 data_folder = Path("./website/database/")
 playlist_mood_path = data_folder / "playlist_mood.csv"
-print(playlist_mood_path)
+# print(playlist_mood_path)
 
 # function to add new playlist not already in the CSV file to save the playlist and its moods
 def add_playlist(name, URL, main_mood, sub_mood):
@@ -89,14 +89,13 @@ def add_playlist(name, URL, main_mood, sub_mood):
                    "URL": URL,
                    "main_mood": main_mood,
                    "sub_mood": sub_mood}
-        print("NEW_ROW:", new_row)
         df = df.append(new_row, ignore_index=True)
     df.to_csv(playlist_mood_path, index=False)
 
 
 #add_playlist('nameA', 'URLA', 'loving', 'heartbroken')
 
-print(playlist_score_path)
+# print(playlist_score_path)
 
 # function to update the score - adds new score to existing score
 def update_score(name, URL, new_score):
@@ -134,10 +133,31 @@ def top_scores():
                         axis=0,
                         ascending=[False],
                         inplace=True)
-    # print(output1[:3])
-    return output1[:3]
-#update_score('na', 'URLA', 4)
-print("TOP THREE:", top_scores())
+    top_three = output1[:3]
+    indexes = top_three.index.values.tolist()
+    return indexes, top_three
+
+
+def get_top_scores_dict():
+    indexes, top_three = top_scores()
+    first = top_three.loc[int(indexes[0])]
+    second = top_three.loc[int(indexes[1])]
+    third = top_three.loc[int(indexes[2])]
+    # saves the playlists in order with details: [playlist_name, URL, main_mood, sub_mood, score] in a list
+    scores_dict = {
+        1: [first['playlist_name'], first['URL'], first['main_mood'], first['sub_mood'], first['score']],
+        2: [second['playlist_name'], second['URL'], second['main_mood'], second['sub_mood'], second['score']],
+        3: [third['playlist_name'], third['URL'], third['main_mood'], third['sub_mood'], third['score']]
+    }
+
+    print("FIRST:\n", scores_dict[1])
+    print("SECOND:\n", scores_dict[2])
+    print("THIRD:\n", scores_dict[3])
+
+    return scores_dict
+
+print("TOP_SCORES\n", get_top_scores_dict())
+
 
 
 # # Return top 3 playlists by score based on mood

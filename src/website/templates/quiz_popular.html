@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+{% block content %}
+<h2>Looking for some popular playlists?</h2>
+<h4>Let's figure out your mood first!</h4>
+<br />
+    <form method="post">
+        {{ form.hidden_tag() }}
+        {{ form.mood_1.label(class="form-label") }}
+        {{ form.mood_1(class="form-control") }}
+        <br />
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+<br />
+{% endblock %}
