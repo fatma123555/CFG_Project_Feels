@@ -8,22 +8,32 @@ try:
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
 
-
     import spotipy
     from spotipy.oauth2 import SpotifyClientCredentials
     import random
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
+
 class SpotifyPlaylist():
     def __init__(self):
-        pass
+        self.sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
+        self.playlists = None
+        self.playlist_url = None
+        self.playlist_id = None
+        self.playlist_img = None
+        self.playlist_name = None
+        self.result = None
+
+    def send_request(self, mood):
+        randomplaylist = random.randint(0, 1000)
+        # self.sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
+        results = self.sp.search(q=mood, limit=1, offset=randomplaylist, type="playlist", market=None)
+        return results
 
     def find_playlist(self, mood):
-        randomplaylist = random.randint(0, 1000)
-        sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
-        self.sp = sp
-        results = self.sp.search(q=mood, limit=1, offset=randomplaylist, type="playlist", market=None)
+        # self.sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
+        results = self.send_request(mood)
         self.playlists = results['playlists']
         for i, item in enumerate(self.playlists['items']):
             playlist_name = list((self.playlists['offset'] + i, item['name']))  # this returns the playlist names
@@ -49,7 +59,3 @@ class SpotifyPlaylist():
         combination = zip(self.playlist_name, self.playlist_url, self.playlist_img)
         playlist_name_url = list(combination)
         return playlist_name_url[1]
-
-    def clear_search_query(self):
-        pass
-
