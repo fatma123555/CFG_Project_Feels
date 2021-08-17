@@ -27,12 +27,10 @@ class SpotifyPlaylist():
 
     def send_request(self, mood):
         randomplaylist = random.randint(0, 1000)
-        # self.sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
         results = self.sp.search(q=mood, limit=1, offset=randomplaylist, type="playlist", market=None)
         return results
 
     def find_playlist(self, mood):
-        # self.sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id, client_secret))
         results = self.send_request(mood)
         self.playlists = results['playlists']
         for i, item in enumerate(self.playlists['items']):
