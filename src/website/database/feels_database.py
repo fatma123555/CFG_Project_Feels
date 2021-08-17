@@ -125,13 +125,15 @@ def update_score(name, URL, new_score):
 # all_by_mood('depressed')
 
 #Return top 3 highest scoring playlist (any mood)
-def top_scores():
+def top_scores(sub_mood):
     import pandas as pd
     pmood = pd.read_csv(playlist_mood_path)
     pscore = pd.read_csv(playlist_score_path)
     output1 = pd.merge(pmood, pscore,
                        on=['playlist_name','URL'],
                        how='inner')
+    is_sub_mood = output1['sub_mood'] == sub_mood
+    output1 = output1[is_sub_mood]
     output1.sort_values(["score"],
                         axis=0,
                         ascending=[False],
@@ -141,8 +143,11 @@ def top_scores():
     return indexes, top_three
 
 
-def get_top_scores_dict():
-    indexes, top_three = top_scores()
+def get_top_scores_dict(sub_mood):
+    indexes, top_three = top_scores(sub_mood)
+    if len(top_three) < 3:
+        empty_dict = dict()
+        return empty_dict
     first = top_three.loc[int(indexes[0])]
     second = top_three.loc[int(indexes[1])]
     third = top_three.loc[int(indexes[2])]
@@ -158,10 +163,6 @@ def get_top_scores_dict():
     print("THIRD:\n", scores_dict[3])
 
     return scores_dict
-
-print("TOP_SCORES\n", get_top_scores_dict())
-
-
 
 # # Return top 3 playlists by score based on mood
 # def top_by_mood(mood):

@@ -8,7 +8,9 @@ try:
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
+
 app = create_app()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
