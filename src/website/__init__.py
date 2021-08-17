@@ -5,8 +5,7 @@ from src.website.CustomForm import QuizForm, SecondChoice, RatingForm
 from src.website.API.Spotify_API import SpotifyPlaylist
 # import the key methods for the data management within the app
 from src.website import database
-from src.website.database.data_manager import get_main_moods
-from src.website.database.feels_database import update_score, add_playlist, get_top_scores_dict
+from src.website.database.feels_database import FeelsDatabase
 # import the libraries to load the environment and its secrets
 import os
 from dotenv import load_dotenv
@@ -25,6 +24,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = SECRET_KEY
+    feels_database = FeelsDatabase()
 
     """"
         This method is responsible for returning the homepage 
@@ -64,7 +64,7 @@ def create_app():
         session['PATH'] = "recommendation"
         form = QuizForm()
         try:
-            form.mood_1.choices = get_main_moods()
+            form.mood_1.choices = feels_database.get_main_moods()
         except Exception as e:
             print("Problem with setting the form choices {}".format(e))
         answer = None
@@ -94,7 +94,7 @@ def create_app():
         session['PATH'] = "popular"
         form = QuizForm()
         try:
-            form.mood_1.choices = get_main_moods()
+            form.mood_1.choices = feels_database.get_main_moods()
         except Exception as e:
             print("Problem with setting the form choices {}".format(e))
         answer = None
@@ -133,7 +133,7 @@ def create_app():
             session['data'] = playlist_data
             session['SUB_MOOD'] = final_mood
             # the playlist is added to the database for usage and reference later
-            add_playlist(playlist_data['NAME'], playlist_data['URL'], session['MAIN_MOOD'], session['SUB_MOOD'])
+            feels_database.add_playlist(playlist_data['NAME'], playlist_data['URL'], session['MAIN_MOOD'], session['SUB_MOOD'])
             if session['PATH'] == 'recommendation':
                 # if the path was recommendation, then a random playlist is shown on the screen for the user to rate
                 return redirect(url_for('save_rating',
@@ -166,7 +166,7 @@ def create_app():
         if form.validate_on_submit():
             rating = form.radio.data # get the voted rating score
             # update the score of that playlist in the database, else add it to the database with it score
-            update_score(playlist_data['NAME'], playlist_data['URL'], rating)
+            feels_database.update_score(playlist_data['NAME'], playlist_data['URL'], rating)
         return render_template("result.html",  # return the result page with the rating form
                                form=form,
                                rating=rating,
@@ -190,7 +190,7 @@ def create_app():
         """
         # get the top rated playlists based on the sub_mood, will be empty if there aren't any saved, or
         # if there aren't enough saved playlists to make up a top 3
-        top_scores_dict = get_top_scores_dict(session['SUB_MOOD'])
+        top_scores_dict = feels_database.get_top_scores_dict(session['SUB_MOOD'])
         if len(top_scores_dict) == 0:  # if its an empty dict, then tell the user that no playlists were found
             return render_template("no_playlists_found.html")
         return render_template("popular_playlists.html",  # return the popular playlists top 3 in a list
@@ -210,7 +210,7 @@ def create_app():
     def popular_playlist_result(num):
         final_mood = session['SUB_MOOD']
         # get the top 3 scoring playlists
-        top_scores_dict = get_top_scores_dict(session['SUB_MOOD'])
+        top_scores_dict = feels_database.get_top_scores_dict(session['SUB_MOOD'])
         return render_template("popular_result.html",  # showcase the clicked playlist on screen
                                top_three=top_scores_dict,
                                num=int(num),
