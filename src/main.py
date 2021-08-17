@@ -8,9 +8,9 @@ try:
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
-
+# create the app that's created in the __init__ function
 app = create_app()
 
-
+# run the whole app through the top layer main python file
 if __name__ == '__main__':
     app.run(debug=True)
