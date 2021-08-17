@@ -1,9 +1,12 @@
-# Read entire moods file
-import pandas as pd
-from pathlib import Path
+try:
+    # Read entire moods file
+    import pandas as pd
+    from pathlib import Path
 
-data_folder = Path("./website/database/")
-moods_path = data_folder / "moods.csv"
+    data_folder = Path("./website/database/")
+    moods_path = data_folder / "moods.csv"
+except Exception as e:
+    print("Some modules are missing {}".format(e))
 # print(moods_path)
 # file = pd.read_csv(moods_path)
 

@@ -1,17 +1,19 @@
-# Spotify API
-import os
-from dotenv import load_dotenv
+try:
+    # Spotify API
+    import os
+    from dotenv import load_dotenv
 
-# Credentials
-load_dotenv('.env')
-client_id = os.getenv('CLIENT_ID')
-client_secret = os.getenv('CLIENT_SECRET')
+    # Credentials
+    load_dotenv('.env')
+    client_id = os.getenv('CLIENT_ID')
+    client_secret = os.getenv('CLIENT_SECRET')
 
 
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import random
-
+    import spotipy
+    from spotipy.oauth2 import SpotifyClientCredentials
+    import random
+except Exception as e:
+    print("Some modules are missing {}".format(e))
 
 class SpotifyPlaylist():
     def __init__(self):

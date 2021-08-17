@@ -1,52 +1,40 @@
-from flask import Flask, render_template, request, url_for, session
-from werkzeug.utils import redirect
+try:
+    from flask import Flask, render_template, request, url_for, session
+    from werkzeug.utils import redirect
 
-from src.website.CustomForm import AppForm, QuizForm, SecondChoice, RatingForm
-from src.website.API.Spotify_API import SpotifyPlaylist
-from src.website import database
+    from src.website.CustomForm import QuizForm, SecondChoice, RatingForm
+    from src.website.API.Spotify_API import SpotifyPlaylist
+    from src.website import database
 
-# Spotify API
-import os
-from dotenv import load_dotenv
+    from src.website.database.data_manager import get_main_moods
+    from src.website.database.feels_database import update_score, add_playlist, get_top_scores_dict
 
-# Credentials
-load_dotenv('.env')
-SECRET_KEY = os.getenv('SECRET_KEY')
+    # Spotify API
+    import os
+    from dotenv import load_dotenv
+    # Credentials
+    load_dotenv('.env')
+    SECRET_KEY = os.getenv('SECRET_KEY')
+except Exception as e:
+    print("Some modules are missing {}".format(e))
 
-from src.website.database.data_manager import get_main_moods
-from src.website.database.feels_database import update_score, add_playlist, get_top_scores_dict
-
-
-# def get_all_moods():
-#     return get_main_moods()
-#
-# def build_moods_dict():
-#     main_moods = get_main_moods()
-#     all_moods = dict()
-#     for main_mood in main_moods:
-#         all_moods[main_mood] = get_sub_moods(main_mood)
-#     return all_moods
-#
-# all_moods = build_moods_dict()
-# main_moods_tuples = get_main_moods()
+class PlaylistDataPackager():
+    def get_playlist_response(final_mood):
+        playlist_finder = SpotifyPlaylist()
+        playlist_finder.find_playlist(final_mood)
+        playlist_finder.get_playlist_url()
+        playlist_finder.get_playlist_image()
+        response = playlist_finder.combining_all()
+        return response
 
 
-def get_playlist_response(final_mood):
-    playlist_finder = SpotifyPlaylist()
-    playlist_finder.find_playlist(final_mood)
-    playlist_finder.get_playlist_url()
-    playlist_finder.get_playlist_image()
-    response = playlist_finder.combining_all()
-    return response
-
-
-def get_playlist_data(response):
-    playlist_data = {'URL': response[1]['spotify'],
-                     'IMG-URL': response[2][0]['url'],
-                     'CODE': response[1]['spotify'].split('/')[-1],
-                     'NAME': response[0]
-                     }
-    return playlist_data
+    def get_playlist_data(response):
+        playlist_data = {'URL': response[1]['spotify'],
+                         'IMG-URL': response[2][0]['url'],
+                         'CODE': response[1]['spotify'].split('/')[-1],
+                         'NAME': response[0]
+                         }
+        return playlist_data
 
 
 def create_app():
@@ -71,12 +59,9 @@ def create_app():
 
     @app.route("/quiz", methods=['GET', 'POST'])
     def quiz():
-        # session['PATH'] = path
         session['PATH'] = "recommendation"
-        print("SESSION:\n", session['PATH'])
         form = QuizForm()
         form.mood_1.choices = get_main_moods()
-        # PostForm(obj=post)
         answer = None
         if request.method == 'POST':
             answer = form.mood_1.data
@@ -90,7 +75,6 @@ def create_app():
     @app.route("/quiz_popular", methods=['GET', 'POST'])
     def quiz_popular():
         session['PATH'] = "popular"
-        print("SESSION:\n", session['PATH'])
         form = QuizForm()
         form.mood_1.choices = get_main_moods()
         # PostForm(obj=post)
@@ -111,11 +95,11 @@ def create_app():
         form.mood_2.choices = form.all_moods[mood]
         if form.validate_on_submit():
             final_mood = form.mood_2.data
-            response = get_playlist_response(final_mood)
-            playlist_data = get_playlist_data(response)
+            packager = PlaylistDataPackager()
+            response = packager.get_playlist_response(final_mood)
+            playlist_data = packager.get_playlist_data(response)
             session['data'] = playlist_data
             session['SUB_MOOD'] = final_mood
-            print("SESSION:\n", session['PATH'])
             add_playlist(playlist_data['NAME'], playlist_data['URL'], session['MAIN_MOOD'], session['SUB_MOOD'])
             if session['PATH'] == 'recommendation':
                 return redirect(url_for('save_rating',
@@ -136,10 +120,6 @@ def create_app():
         final_mood = session['SUB_MOOD']
         if form.validate_on_submit():
             rating = form.radio.data
-            # # the user rating score
-            # print(rating)
-            # # the data that holds the URL for playlist, the IMG-URL and the playlist CODE
-            # print(session['data'])
             update_score(playlist_data['NAME'], playlist_data['URL'], rating)
         return render_template("result.html",
                                form=form,
@@ -154,8 +134,6 @@ def create_app():
         and output the result to the screen on the highly rated page
         """
         top_scores_dict = get_top_scores_dict()
-        #session['TOP_THREE'] = top_scores_dict
-        print(top_scores_dict)
         return render_template("popular_playlists.html",
                                top_scores_dict=top_scores_dict,
                                final_mood=session['SUB_MOOD'],
@@ -163,10 +141,8 @@ def create_app():
 
     @app.route("/popular_playlist_result/<num>", methods=["GET", "POST"])
     def popular_playlist_result(num):
-        playlist_data = session['data']
         final_mood = session['SUB_MOOD']
         top_scores_dict = get_top_scores_dict()
-        print("POPULARRRR:\n", top_scores_dict[3][1])
         return render_template("popular_result.html",
                                top_three=top_scores_dict,
                                num=int(num),

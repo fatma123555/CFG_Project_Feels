@@ -1,5 +1,7 @@
-from src.website.database.feels_database import get_main_moods, get_sub_moods
-from src.website import database
+try:
+    from src.website.database.feels_database import get_main_moods, get_sub_moods
+except Exception as e:
+    print("Some modules are missing {}".format(e))
 
 def get_all_moods():
     return get_main_moods()
