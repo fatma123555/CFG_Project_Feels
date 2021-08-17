@@ -7,10 +7,19 @@ try:
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
+"""
+    This class will create the first question form to be placed on the first page of the quiz
+"""
+
 
 class QuizForm(FlaskForm):
     mood_1 = SelectField('How are you feeling?', choices=main_moods_tuples, validators=[DataRequired()])
     submit = SubmitField("Next")
+
+
+"""
+    This class will create the second question form to be placed on the second page of the quiz
+"""
 
 
 class SecondChoice(FlaskForm):
@@ -19,6 +28,13 @@ class SecondChoice(FlaskForm):
     submit = SubmitField("Get my playlist!")
 
 
+"""
+    This class will create the rating form to be placed on the results page with the spotify embed playlist to its side
+"""
+
+
 class RatingForm(FlaskForm):
-    radio = RadioField(u'How many stars? ', choices=[('1', '⭐'), ('2', '⭐⭐'), ('3', '⭐⭐⭐'), ('4', '⭐⭐⭐⭐'), ('5', '⭐⭐⭐⭐⭐')], validators=[DataRequired()])
+    radio = RadioField(u'How many stars? ',
+                       choices=[('1', '⭐'), ('2', '⭐⭐'), ('3', '⭐⭐⭐'), ('4', '⭐⭐⭐⭐'), ('5', '⭐⭐⭐⭐⭐')],
+                       validators=[DataRequired()])
     submit = SubmitField("Submit")
