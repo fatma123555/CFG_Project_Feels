@@ -76,7 +76,6 @@ class SpotifyPlaylist():
         This function will extract the IMG of the playlist into the playlist IMG variable
     """
     def get_playlist_image(self):
-        # cover_img = self.sp.playlist_cover_image(self.playlist_id)
         for i, item in enumerate(self.playlists['items']):
             playlist_img = list((self.playlists['offset'] + i, item['images'])) # this will return the images
             self.playlist_img = playlist_img
