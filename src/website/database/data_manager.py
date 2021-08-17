@@ -3,8 +3,19 @@ try:
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
+"""
+    This method is essentially a getter method for the main moods return function from the feels_database
+"""
+
+
 def get_all_moods():
     return get_main_moods()
+
+
+""" 
+    This function will create a dictionary of the main moods and its submoods as a list within each entry
+"""
+
 
 def build_moods_dict():
     main_moods = get_main_moods()
@@ -13,5 +24,9 @@ def build_moods_dict():
         all_moods[main_mood] = get_sub_moods(main_mood)
     return all_moods
 
+
+"""
+    These are the key variables that are necessary to build the choices for the quiz forms
+"""
 all_moods = build_moods_dict()
 main_moods_tuples = zip(get_main_moods(), get_main_moods())
