@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, session
+from flask import Flask, render_template, request, url_for, session, abort
 from werkzeug.utils import redirect
 # import the key custom created form classes and the spotify API caller class
 from src.website.CustomForm import QuizForm, SecondChoice, RatingForm
@@ -129,6 +129,9 @@ def create_app():
             final_mood = form.mood_2.data  # get the answer to the sub mood chosen
             packager = PlaylistDataPackager()  # initialise the playlist data packager
             response = packager.get_playlist_response(final_mood)
+            # if something went wrong with the request, then redirect to the 404 page
+            if response is None:
+                abort(404, description="Resource not found")
             playlist_data = packager.get_playlist_data(response)  # a dictionary of data is returned
             session['data'] = playlist_data
             session['SUB_MOOD'] = final_mood
