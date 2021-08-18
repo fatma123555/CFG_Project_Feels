@@ -129,7 +129,7 @@ def create_app():
             final_mood = form.mood_2.data  # get the answer to the sub mood chosen
             packager = PlaylistDataPackager()  # initialise the playlist data packager
             response = packager.get_playlist_response(final_mood)
-            # if something went wrong with the request, then redirect to the 404 page
+            # if something went wrong with the request, then redirect to the 404 page created
             if response is None:
                 abort(404, description="Resource not found")
             playlist_data = packager.get_playlist_data(response)  # a dictionary of data is returned
