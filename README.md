@@ -32,9 +32,8 @@ SECRET_KEY = "*************"<br />
 **User Tutorial:** <br />
 ![user_tutorial_gif](https://github.com/fatma123555/CFG_Project_Feels/blob/c1f3e8109bb0586d76ebe4868210dd8cc52fb290/playlist_quiz_recommendation.gif)
 
-Click the image below to view videos of how to use the app!
-
-[![Everything Is AWESOME](https://yt-embed.herokuapp.com/embed?v=BUZbUu5Q60E)](https://youtu.be/BUZbUu5Q60E "Get Recommended Playlists")
+Click the link below to view videos of how to use the app!
+[Getting a recommended playlist](https://youtu.be/BUZbUu5Q60E)
 
 
 **Deploying / Publishing:** <br />
