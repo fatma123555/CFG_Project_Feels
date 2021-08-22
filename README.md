@@ -34,7 +34,7 @@ SECRET_KEY = "*************"<br />
 
 Click the image below to view videos of how to use the app!
 
-[![Everything Is AWESOME](https://yt-embed.herokuapp.com/embed?v=StTqXEQ2l-Y)](https://youtu.be/BUZbUu5Q60E "Get Recommended Playlists")
+[![Everything Is AWESOME](https://yt-embed.herokuapp.com/embed?v=BUZbUu5Q60E)](https://youtu.be/BUZbUu5Q60E "Get Recommended Playlists")
 
 
 **Deploying / Publishing:** <br />
