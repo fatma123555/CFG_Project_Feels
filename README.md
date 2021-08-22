@@ -32,6 +32,8 @@ SECRET_KEY = "*************"<br />
 **User Tutorial:** <br />
 ![user_tutorial_gif](https://github.com/fatma123555/CFG_Project_Feels/blob/c1f3e8109bb0586d76ebe4868210dd8cc52fb290/playlist_quiz_recommendation.gif)
 
+[![Everything Is AWESOME](https://yt-embed.herokuapp.com/embed?v=StTqXEQ2l-Y)](https://www.youtube.com/watch?v=StTqXEQ2l-Y "Everything Is AWESOME")
+
 
 **Deploying / Publishing:** <br />
 For future development of this project, it would be ideal to be able to publish the project onto Heroku
