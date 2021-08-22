@@ -32,9 +32,11 @@ SECRET_KEY = "*************"<br />
 **User Tutorial:** <br />
 ![user_tutorial_gif](https://github.com/fatma123555/CFG_Project_Feels/blob/c1f3e8109bb0586d76ebe4868210dd8cc52fb290/playlist_quiz_recommendation.gif)
 
-Click the link below to view videos of how to use the app!
-[Getting a recommended playlist](https://youtu.be/BUZbUu5Q60E)
+Click the links to view videos of how to use the app!
 
+[Getting a recommended playlist](https://youtu.be/BUZbUu5Q60E)
+[Find User Rated Popular Playlists](https://youtu.be/zxvp_0TLrH0)
+[Future Login Feature](https://youtu.be/zxvp_0TLrH0)
 
 **Deploying / Publishing:** <br />
 For future development of this project, it would be ideal to be able to publish the project onto Heroku
