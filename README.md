@@ -35,7 +35,9 @@ SECRET_KEY = "*************"<br />
 Click the links to view videos of how to use the app!
 
 [Getting a recommended playlist](https://youtu.be/BUZbUu5Q60E)
+
 [Find User Rated Popular Playlists](https://youtu.be/zxvp_0TLrH0)
+
 [Future Login Feature](https://youtu.be/zxvp_0TLrH0)
 
 **Deploying / Publishing:** <br />
