@@ -27,7 +27,7 @@ pip3 install unittest2 <br />
 For conifgurationg purposes a separate .env file will need to be created that will need to hold secret keys. <br />
 CLIENT_ID = "**********" <br />
 CLIENT_SECRET = "*************" <br />
-SECRET_KEY = "*************"
+SECRET_KEY = "*************" <br />
 
 **User Tutorial:** <br />
 ![user_tutorial_gif](https://github.com/fatma123555/CFG_Project_Feels/blob/c1f3e8109bb0586d76ebe4868210dd8cc52fb290/playlist_quiz_recommendation.gif)
