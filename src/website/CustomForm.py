@@ -10,7 +10,11 @@ except Exception as e:
 """
     This class will create the first question form to be placed on the first page of the quiz
 """
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, SelectField, RadioField
+from wtforms.validators import DataRequired
 
+from src.website.database.data_manager import main_moods_tuples, all_moods
 
 class QuizForm(FlaskForm):
     mood_1 = SelectField('How are you feeling?', choices=main_moods_tuples, validators=[DataRequired()])

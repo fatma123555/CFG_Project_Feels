@@ -9,7 +9,13 @@ try:
     playlist_mood_path = data_folder / "playlist_mood.csv"
 except Exception as e:
     print("Some modules are missing {}".format(e))
+import pandas as pd
+from pathlib import Path
 
+data_folder = Path("./website/database/")
+moods_path = data_folder / "moods.csv"
+playlist_score_path = data_folder / "playlist_score.csv"
+playlist_mood_path = data_folder / "playlist_mood.csv"
 """
     This class will create the main database component and will mock the queries that would have been sent to a database
     It is responsible for retrieving the data, for storing the data, and for updating the scores 

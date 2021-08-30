@@ -8,6 +8,7 @@ try:
 except Exception as e:
     print("Some modules are missing {}".format(e))
 
+from src.website import create_app
 # create the app that's created in the __init__ function
 app = create_app()
 

@@ -2,7 +2,7 @@ try:
     from src.website.database.feels_database import FeelsDatabase
 except Exception as e:
     print("Some modules are missing {}".format(e))
-
+from src.website.database.feels_database import FeelsDatabase
 feels_database = FeelsDatabase()
 
 """
